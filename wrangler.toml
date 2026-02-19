@@ -1,0 +1,63 @@
+# ============================================
+# Cloudflare Workers 配置文件
+# 項目: Flux AI Pro - NanoBanana Edition
+# 版本: 11.15.0
+# 更新: 2026-02-18
+# ============================================
+
+name = "flux-ai-pro"
+main = "worker.js"
+compatibility_date = "2024-12-01"
+
+# ============================================
+# KV 存儲綁定 (NanoBanana 限流必需 + 管理後台系統)
+# ⚠️ 請執行: npx wrangler kv:namespace create "FLUX_KV"
+# 然後將生成的 id 填入下方
+#
+# KV 存儲用途:
+# - Nano Pro 限流和配額管理
+# - 管理後台系統:
+#   - admin:credentials (管理員憑證)
+#   - admin:tokens:{token} (JWT Token)
+#   - admin:styles (自定義風格)
+#   - admin:providers (供應商配置)
+#   - admin:parameters (參數配置)
+# ============================================
+[[kv_namespaces]]
+binding = "FLUX_KV"
+id = "f865ae4752ec40f7819aa1888113f8e0"
+
+# ============================================
+# Workers AI 綁定（用於中文自動翻譯）
+# ============================================
+[ai]
+binding = "AI"
+
+# ============================================
+# 環境變量（非敏感）
+# ============================================
+[vars]
+WORKER_VERSION = "11.15.0"
+DEFAULT_MODEL = "flux-schnell"
+MAX_WIDTH = 4096
+MAX_HEIGHT = 4096
+MAX_TIMEOUT = 300000
+ENVIRONMENT = "production"
+
+# ============================================
+# Secrets 通過 wrangler secret 命令設置
+# 🔐 推薦設置:
+# 1. POLLINATIONS_API_KEY (Pollinations 圖像生成)
+# 2. INFIP_API_KEY (Ghostbot/Infip)
+# 3. AQUA_API_KEY (Aqua Server)
+# 4. KINAI_API_KEY (Kinai API)
+# 5. AIRFORCE_API_KEY (Airforce API)
+# 6. NONPON_API_KEY (Nonpon API)
+# ============================================
+# 設置命令範例：
+# npx wrangler secret put POLLINATIONS_API_KEY
+# npx wrangler secret put INFIP_API_KEY
+# npx wrangler secret put AQUA_API_KEY
+# npx wrangler secret put KINAI_API_KEY
+# npx wrangler secret put AIRFORCE_API_KEY
+# npx wrangler secret put NONPON_API_KEY
